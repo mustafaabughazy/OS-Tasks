@@ -319,7 +319,38 @@ void RR(int **Processes, int NProcesses, int TimeQuantum) {
   cout << "************Round Robin************" << endl;
   cout << "***********************************" << endl;
   int TimeLine = 0;
+  LinkedListQueue Rqueue ;
+  int *reminderTime;
+  //array to calculate reminder time for each process
+  reminderTime = new int[NProcesses];
+  int process;
+  for (int i =0; i<NProcesses; i++){
 
+    // put all processes in ready queue
+    Rqueue.enqueue(Processes[i][0]);
+    // at the beginning reminder = burst time
+    reminderTime[i] = Processes[i][2];
+ }
+  while (Rqueue.isEmpty() == false){
+    process = Rqueue.dequeue()-1;
+    if (TimeQuantum >reminderTime[process] && reminderTime[process] >0 )
+
+    {
+        cout << "* time of p"<< process+1 << " from "<< TimeLine;
+        TimeLine += reminderTime[process];
+        cout << " to "<< TimeLine << endl;
+        reminderTime[process] = 0;
+
+    }
+    else if (TimeQuantum <reminderTime[process]){
+        cout << "* time of p"<< process+1 << " from "<< TimeLine;
+        TimeLine += TimeQuantum;
+        cout << " to "<< TimeLine << endl ;
+
+        reminderTime[process] =reminderTime[process] - TimeQuantum;
+        Rqueue.enqueue(process+1);
+    }
+  }
   // Calclate Average Waiting Time
   float AverageWaitingTime = (float)TotalWaitingTime / NProcesses;
   cout << "***********************************" << endl;
@@ -330,3 +361,4 @@ void RR(int **Processes, int NProcesses, int TimeQuantum) {
   /****************************************************************************/
  /**********************************<The End>*********************************/
 /****************************************************************************/
+
