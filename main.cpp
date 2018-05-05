@@ -314,41 +314,69 @@ void Priority_P(int **Processes, int NProcesses) {
 }
 /**********************************Round Robin*********************************/
 void RR(int **Processes, int NProcesses, int TimeQuantum) {
-  int TotalWaitingTime = 0;
+  // Sorting Processes According To Arrival Time
+  SortingProcessesAccordingToArrivalTime(Processes, NProcesses);
+
   cout << "***********************************" << endl;
   cout << "************Round Robin************" << endl;
   cout << "***********************************" << endl;
-  int TimeLine = 0;
-  LinkedListQueue Rqueue ;
-  int *reminderTime;
-  //array to calculate reminder time for each process
-  reminderTime = new int[NProcesses];
-  int process;
-  for (int i =0; i<NProcesses; i++){
+  
+  int TotalWaitingTime = 0;
+  int TimeLine = Processes[0][1];
+ 
+  LinkedListQueue ReadyQueue;
+  // Array to save the Remaining Time for each process;initial 0
+  int* RemainingTime = new int[NProcesses]();
+  // Array to indecate if the Process entered the queue before that;initial false
+  bool* EnteredQueueBefore = new bool[NProcesses]();
+  // Array to indecate if the Process started excution before that;initial false
+  bool* StartedExcutionBefore = new bool[NProcesses]();
 
-    // put all processes in ready queue
-    Rqueue.enqueue(Processes[i][0]);
-    // at the beginning reminder = burst time
-    reminderTime[i] = Processes[i][2];
- }
-  while (Rqueue.isEmpty() == false){
-    process = Rqueue.dequeue()-1;
-    if (TimeQuantum >reminderTime[process] && reminderTime[process] >0 )
-
-    {
-        cout << "* time of p"<< process+1 << " from "<< TimeLine;
-        TimeLine += reminderTime[process];
-        cout << " to "<< TimeLine << endl;
-        reminderTime[process] = 0;
-
+  ReadyQueue.enqueue(Processes[0][0]);  // First Process Enter Queue
+  RemainingTime[0] = Processes[0][2];   // RemainingTime = BurstTime
+  EnteredQueueBefore[0] = true;
+ 
+  while (ReadyQueue.isEmpty() == false) {
+    int ProcessNumber = ReadyQueue.dequeue();
+    int ProcessIndex = ProcessNumber - 1;
+    int ProcessRemainingTime = RemainingTime[ProcessIndex];
+    
+    if (TimeQuantum >= ProcessRemainingTime && ProcessRemainingTime > 0 ) {
+        cout << "* Time(" << TimeLine;
+        TimeLine += ProcessRemainingTime;
+        cout << "->" << TimeLine;
+        cout << "): Process No.(" << ProcessNumber << ")" << endl;
+        RemainingTime[ProcessIndex] = 0;
+        Processes[ProcessIndex][6] = TimeLine;  // End Time
+        // Calclate the Waiting Time = End Time - (Arrival Time + Burst Time])
+        Processes[ProcessIndex][4] = Processes[ProcessIndex][6] 
+                    - (Processes[ProcessIndex][1] + Processes[ProcessIndex][2]);
+        TotalWaitingTime += Processes[ProcessIndex][4];
+        
+        for (int i =0; i<NProcesses; i++){
+            if(Processes[i][1] <= TimeLine && EnteredQueueBefore[i] == false ) {
+                ReadyQueue.enqueue(Processes[i][0]);
+                RemainingTime[i] = Processes[i][2];
+                EnteredQueueBefore[i] = true;
+            }
+        }
     }
-    else if (TimeQuantum <reminderTime[process]){
-        cout << "* time of p"<< process+1 << " from "<< TimeLine;
+    else if (TimeQuantum < ProcessRemainingTime) {
+        cout << "* Time(" << TimeLine;
         TimeLine += TimeQuantum;
-        cout << " to "<< TimeLine << endl ;
+        cout << "->" << TimeLine;
+        cout << "): Process No.(" << ProcessNumber << ")" << endl;
+        RemainingTime[ProcessIndex] = ProcessRemainingTime - TimeQuantum;
+        
+        for (int i =0; i<NProcesses; i++){
+            if(Processes[i][1] <= TimeLine && EnteredQueueBefore[i] == false ) {
+                ReadyQueue.enqueue(Processes[i][0]);
+                RemainingTime[i] = Processes[i][2];
+                EnteredQueueBefore[i] = true;
+            }
+        }
 
-        reminderTime[process] =reminderTime[process] - TimeQuantum;
-        Rqueue.enqueue(process+1);
+        ReadyQueue.enqueue(ProcessNumber);
     }
   }
   // Calclate Average Waiting Time
@@ -361,4 +389,3 @@ void RR(int **Processes, int NProcesses, int TimeQuantum) {
   /****************************************************************************/
  /**********************************<The End>*********************************/
 /****************************************************************************/
-
