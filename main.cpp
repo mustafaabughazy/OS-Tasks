@@ -284,12 +284,18 @@ void ReArrangingProcessesAccordingToPriority(int **Processes, int NProcesses) {
 }
 /*************************Shortest Job First Preemptive************************/
 void SJF_P(int **Processes, int NProcesses) {
-  int TotalWaitingTime = 0;
   cout << "***********************************" << endl;
   cout << "***Shortest Job First Preemptive***" << endl;
   cout << "***********************************" << endl;
-  int TimeLine = 0;
-
+  
+  int TotalWaitingTime = 0;
+  int TimeLine = Processes[0][1];
+ /************************************************************/
+  
+      // Complete your Code Here 
+    //And Feel Free to change Any Thing Inside the Function 
+  
+  /************************************************************/
   // Calclate Average Waiting Time
   float AverageWaitingTime = (float)TotalWaitingTime / NProcesses;
   cout << "***********************************" << endl;
@@ -299,12 +305,18 @@ void SJF_P(int **Processes, int NProcesses) {
 }
 /******************************Priority Preemptive*****************************/
 void Priority_P(int **Processes, int NProcesses) {
-  int TotalWaitingTime = 0;
   cout << "***********************************" << endl;
   cout << "*******Priority Preemptive*********" << endl;
   cout << "***********************************" << endl;
-  int TimeLine = 0;
-
+  
+  int TotalWaitingTime = 0;
+  int TimeLine = Processes[0][1];
+  /************************************************************/
+  
+      // Complete your Code Here 
+    //And Feel Free to change Any Thing Inside the Function 
+  
+  /************************************************************/
   // Calclate Average Waiting Time
   float AverageWaitingTime = (float)TotalWaitingTime / NProcesses;
   cout << "***********************************" << endl;
