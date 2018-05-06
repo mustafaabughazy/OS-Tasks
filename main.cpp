@@ -284,17 +284,73 @@ void ReArrangingProcessesAccordingToPriority(int **Processes, int NProcesses) {
 }
 /*************************Shortest Job First Preemptive************************/
 void SJF_P(int **Processes, int NProcesses) {
+  // Sorting Processes According To Arrival Time
+  SortingProcessesAccordingToArrivalTime(Processes, NProcesses);
+  
   cout << "***********************************" << endl;
   cout << "***Shortest Job First Preemptive***" << endl;
   cout << "***********************************" << endl;
   
   int TotalWaitingTime = 0;
   int TimeLine = Processes[0][1];
- /************************************************************/
+  /************************************************************/
+  // Array to save the Remaining Time for each process;initial 0
+  int* RemainingTime = new int[NProcesses]();
+  for (int i =0; i<NProcesses; i++){
+      RemainingTime[i] = Processes[i][2];
+  }
+  int CounterOfCompletedProcesses=0;
+  int LastProcessNumber = -1;
+  int LastTimeLine = TimeLine;
   
-      // Complete your Code Here 
-    //And Feel Free to change Any Thing Inside the Function 
-  
+
+  while(CounterOfCompletedProcesses<NProcesses) {
+      int j;
+      for(j=0;j<NProcesses;j++) { if(Processes[j][1] > TimeLine) { break; } }
+      // Sorting Processes According To Remaining Time
+      for (int z = 0; z < j; z++) {
+          int MinProcessLoc = z;
+          // Get Minimum Process Location
+          for (int y = z + 1; y < j; y++) {
+              if (RemainingTime[y] < RemainingTime[MinProcessLoc]) {
+                  MinProcessLoc = y;
+              }
+          }
+          // Swaping
+          int temp = RemainingTime[z];
+          RemainingTime[z] = RemainingTime[MinProcessLoc];
+          RemainingTime[MinProcessLoc] = temp;
+          for (int k = 0; k < 7; k++) {
+              temp = Processes[z][k];
+              Processes[z][k] = Processes[MinProcessLoc][k];
+              Processes[MinProcessLoc][k] = temp;
+          }
+      }
+      if(j>0) {
+          for(j=0;j<NProcesses;j++) { if(RemainingTime[j]!=0) { break; } }
+          if(Processes[j][1] > TimeLine) { TimeLine = Processes[j][1]; }
+          Processes[j][6] = TimeLine+1;
+          RemainingTime[j]--;
+          if((Processes[j][0] != LastProcessNumber) && (LastProcessNumber != -1)){
+              cout << "* Time(" << LastTimeLine;
+              cout << "->" << TimeLine;
+              cout << "): Process No.(" << LastProcessNumber << ")" << endl;
+              LastTimeLine = TimeLine;
+          }
+          LastProcessNumber = Processes[j][0];
+      }
+      TimeLine++;
+      CounterOfCompletedProcesses=0;
+      for(j=0;j<NProcesses;j++) { if(RemainingTime[j]==0) { CounterOfCompletedProcesses++; } }
+	}
+	cout << "* Time(" << LastTimeLine;
+    cout << "->" << TimeLine;
+    cout << "): Process No.(" << LastProcessNumber << ")" << endl;
+ 
+	for(int i=0;i<NProcesses;i++) {
+		Processes[i][4] = Processes[i][6] - (Processes[i][1] + Processes[i][2]);
+		TotalWaitingTime += Processes[i][4];
+	}
   /************************************************************/
   // Calclate Average Waiting Time
   float AverageWaitingTime = (float)TotalWaitingTime / NProcesses;
@@ -305,17 +361,73 @@ void SJF_P(int **Processes, int NProcesses) {
 }
 /******************************Priority Preemptive*****************************/
 void Priority_P(int **Processes, int NProcesses) {
+  // Sorting Processes According To Arrival Time
+  SortingProcessesAccordingToArrivalTime(Processes, NProcesses);
+
   cout << "***********************************" << endl;
   cout << "*******Priority Preemptive*********" << endl;
   cout << "***********************************" << endl;
   
   int TotalWaitingTime = 0;
   int TimeLine = Processes[0][1];
-  /************************************************************/
+/************************************************************/
+  // Array to save the Remaining Time for each process;initial 0
+  int* RemainingTime = new int[NProcesses]();
+  for (int i =0; i<NProcesses; i++){
+      RemainingTime[i] = Processes[i][2];
+  }
+  int CounterOfCompletedProcesses=0;
+  int LastProcessNumber = -1;
+  int LastTimeLine = TimeLine;
   
-      // Complete your Code Here 
-    //And Feel Free to change Any Thing Inside the Function 
+
+  while(CounterOfCompletedProcesses<NProcesses) {
+      int j;
+      for(j=0;j<NProcesses;j++) { if(Processes[j][1] > TimeLine) { break; } }
+      // Sorting Processes According To Priority
+      for (int z = 0; z < j; z++) {
+          int MinProcessLoc = z;
+          // Get Minimum Process Location
+          for (int y = z + 1; y < j; y++) {
+              if (Processes[y][3] < Processes[MinProcessLoc][3]) {
+                  MinProcessLoc = y;
+              }
+          }
+          // Swaping
+          int temp = RemainingTime[z];
+          RemainingTime[z] = RemainingTime[MinProcessLoc];
+          RemainingTime[MinProcessLoc] = temp;
+          for (int k = 0; k < 7; k++) {
+              temp = Processes[z][k];
+              Processes[z][k] = Processes[MinProcessLoc][k];
+              Processes[MinProcessLoc][k] = temp;
+          }
+      }
+      if(j>0) {
+          for(j=0;j<NProcesses;j++) { if(RemainingTime[j]!=0) { break; } }
+          if(Processes[j][1] > TimeLine) { TimeLine = Processes[j][1]; }
+          Processes[j][6] = TimeLine+1;
+          RemainingTime[j]--;
+          if((Processes[j][0] != LastProcessNumber) && (LastProcessNumber != -1)){
+              cout << "* Time(" << LastTimeLine;
+              cout << "->" << TimeLine;
+              cout << "): Process No.(" << LastProcessNumber << ")" << endl;
+              LastTimeLine = TimeLine;
+          }
+          LastProcessNumber = Processes[j][0];
+      }
+      TimeLine++;
+      CounterOfCompletedProcesses=0;
+      for(j=0;j<NProcesses;j++) { if(RemainingTime[j]==0) { CounterOfCompletedProcesses++; } }
+	}
+	cout << "* Time(" << LastTimeLine;
+    cout << "->" << TimeLine;
+    cout << "): Process No.(" << LastProcessNumber << ")" << endl;
   
+	for(int i=0;i<NProcesses;i++) {
+		Processes[i][4] = Processes[i][6] - (Processes[i][1] + Processes[i][2]);
+		TotalWaitingTime += Processes[i][4];
+	}
   /************************************************************/
   // Calclate Average Waiting Time
   float AverageWaitingTime = (float)TotalWaitingTime / NProcesses;
