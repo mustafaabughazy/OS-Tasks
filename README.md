@@ -1,4 +1,4 @@
-# OS-Tasks
+# OS: Tasks
 OS: Page Replacement Task
 
 OS: CPU Scheduling Task
