@@ -1,6 +1,6 @@
 /******************************************************************************
 
-                               OS:Banker Algorithm
+                               OS: Deadlock Task/Detection Algorithm
                     3rd Computer Engineering,Helwan University
       1- Aya Moawad Rashed ( 030 )
       2- Reham Mohamed Abo-Elyazeed ( 043 )
