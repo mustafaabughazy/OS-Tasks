@@ -1,6 +1,6 @@
 /******************************************************************************
 
-                               OS: Deadlock Task/Detection Algorithm
+                      OS: Deadlock Task/Detection Algorithm
                     3rd Computer Engineering,Helwan University
         1- ايه معوض راشد (030)
         2- ريهام محمد ابو اليزيد (043)
