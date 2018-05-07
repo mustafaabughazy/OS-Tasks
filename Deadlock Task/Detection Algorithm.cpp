@@ -2,11 +2,11 @@
 
                                OS: Deadlock Task/Detection Algorithm
                     3rd Computer Engineering,Helwan University
-      1- Aya Moawad Rashed ( 030 )
-      2- Reham Mohamed Abo-Elyazeed ( 043 )
-      3- Hassan Ibrahim Fatooh ( 038 )
-      4- Moustafa Magdy Ahmed ( 097 ) 
-      5- Heba Ashraf Foad taha ( 105 )
+        1- ايه معوض راشد (030)
+        2- ريهام محمد ابو اليزيد (043)
+        3- حسن ابراهيم فتوح (038)
+        4- مصطفى مجدى احمد عثمان (097)
+        5- هبة اشرف فؤاد طه (105)
       
 *******************************************************************************/
 
